@@ -7,38 +7,25 @@
 
   <style>
     :root{
-      --bg1:#ff6cab;
-      --bg2:#7366ff;
-      --bg3:#23d5ab;
+      --bg1:#ff2d95; --bg2:#5b7bff; --bg3:#00e6b8; --bg4:#ffd166;
       --card: rgba(255,255,255,.92);
-      --text:#222;
-      --muted:#555;
       --accent:#d81b60;
-
-      --good:#22c55e;
-      --warn:#f59e0b;
-      --bad:#ef4444;
-
       --shadow: 0 18px 60px rgba(0,0,0,.18);
       --glow: 0 0 25px rgba(255,105,180,.55);
     }
-
     *{ box-sizing:border-box; }
-
     body{
-      margin:0;
-      height:100vh;
-      overflow:hidden;
+      margin:0; height:100vh; overflow:hidden;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
+      color:#222;
     }
 
-    /* Animated gradient background */
+    /* Background */
     .bg{
       position:fixed; inset:0;
-      background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg3), var(--bg1));
-      background-size: 400% 400%;
-      animation: gradient 12s ease infinite;
+      background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg3), var(--bg4), var(--bg1));
+      background-size: 500% 500%;
+      animation: gradient 10s ease infinite;
     }
     @keyframes gradient{
       0%{background-position:0% 50%}
@@ -46,63 +33,47 @@
       100%{background-position:0% 50%}
     }
 
-    /* Sparkle overlay */
+    /* Sparkles */
     .sparkles{
-      position:fixed; inset:0;
-      pointer-events:none;
+      position:fixed; inset:0; pointer-events:none;
       background-image:
-        radial-gradient(rgba(255,255,255,.55) 1px, transparent 1.5px),
-        radial-gradient(rgba(255,255,255,.35) 1px, transparent 2px);
-      background-size: 140px 140px, 90px 90px;
-      background-position: 0 0, 40px 60px;
+        radial-gradient(rgba(255,255,255,.55) 1px, transparent 2px),
+        radial-gradient(rgba(255,255,255,.30) 1px, transparent 2px),
+        radial-gradient(rgba(255,255,255,.20) 1px, transparent 2px);
+      background-size: 160px 160px, 120px 120px, 80px 80px;
+      background-position: 0 0, 40px 60px, 20px 30px;
       mix-blend-mode: overlay;
-      opacity:.35;
-      animation: twinkle 8s ease-in-out infinite;
+      opacity:.48;
+      animation: twinkle 7s ease-in-out infinite;
     }
     @keyframes twinkle{
-      0%,100%{opacity:.25; transform:scale(1)}
-      50%{opacity:.48; transform:scale(1.02)}
+      0%,100%{opacity:.34; transform:scale(1)}
+      50%{opacity:.62; transform:scale(1.02)}
     }
 
-    /* Floating hearts/flowers layer */
-    .floaters{
-      position:fixed; inset:0;
-      pointer-events:none;
-      overflow:hidden;
-    }
+    /* Emoji rain */
+    .floaters{ position:fixed; inset:0; pointer-events:none; overflow:hidden; }
     .floater{
       position:absolute;
-      font-size: clamp(18px, 3.5vw, 34px);
-      opacity:.9;
-      filter: drop-shadow(0 10px 15px rgba(0,0,0,.12));
+      font-size: clamp(18px, 3.5vw, 38px);
+      opacity:.95;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,.18));
       animation: floatUp linear forwards;
       will-change: transform, opacity;
     }
     @keyframes floatUp{
-      0%   { transform: translateY(105vh) rotate(0deg); opacity:0; }
+      0%   { transform: translateY(110vh) rotate(0deg); opacity:0; }
       12%  { opacity:1; }
-      100% { transform: translateY(-20vh) rotate(360deg); opacity:0; }
+      100% { transform: translateY(-25vh) rotate(520deg); opacity:0; }
     }
 
-    /* Canvas FX */
-    canvas#fx{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-    }
+    canvas#fx{ position:fixed; inset:0; pointer-events:none; }
 
-    .wrap{
-      position:relative;
-      height:100vh;
-      display:grid;
-      place-items:center;
-      padding:16px;
-    }
-
+    .wrap{ position:relative; height:100vh; display:grid; place-items:center; padding:16px; }
     .card{
-      width:min(760px, 94vw);
+      width:min(840px, 95vw);
       background: var(--card);
-      border-radius: 22px;
+      border-radius:22px;
       padding: 22px 18px 18px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(8px);
@@ -110,11 +81,9 @@
       position:relative;
       overflow:hidden;
     }
-
     .badge{
-      position:absolute;
-      top:14px; right:14px;
-      background: rgba(255,255,255,.75);
+      position:absolute; top:14px; right:14px;
+      background: rgba(255,255,255,.78);
       border:1px solid rgba(255,105,180,.25);
       border-radius:999px;
       padding:8px 12px;
@@ -123,7 +92,6 @@
       color:#b91c1c;
       box-shadow: var(--glow);
     }
-
     h1{
       margin: 6px 0 6px;
       font-size: clamp(24px, 4vw, 42px);
@@ -134,191 +102,195 @@
     .subtitle{
       margin:0 0 12px;
       text-align:center;
-      color:var(--muted);
-      font-weight:750;
+      opacity:.85;
+      font-weight:850;
     }
 
-    .scene{
-      display:none;
-      animation: pop .35s ease;
-    }
+    .scene{ display:none; animation: pop .35s ease; }
     .scene.active{ display:block; }
     @keyframes pop{
-      from{ transform: translateY(10px) scale(.985); opacity:.0; }
+      from{ transform: translateY(10px) scale(.985); opacity:0; }
       to{ transform: translateY(0) scale(1); opacity:1; }
     }
 
+    /* Quiz UI */
     .toprow{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
       margin: 8px 4px 12px;
-      flex-wrap:wrap;
     }
     .pill{
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.78);
       border:1px solid rgba(0,0,0,.08);
       padding:8px 12px;
       border-radius:999px;
-      font-weight:900;
+      font-weight:950;
       font-size:12px;
       box-shadow: 0 10px 25px rgba(0,0,0,.07);
     }
-    .score{
-      color:#6a1b9a;
-    }
+    .score{ color:#6a1b9a; }
 
     .qbox{
-      margin-top:6px;
-      border-radius:18px;
-      padding:16px;
-      background: linear-gradient(135deg, rgba(255,192,203,.35), rgba(173,216,230,.25));
+      border-radius:18px; padding:16px;
+      background: linear-gradient(135deg, rgba(255,192,203,.38), rgba(173,216,230,.28));
       border: 1px dashed rgba(216,27,96,.25);
     }
-
-    .question{
-      font-weight:950;
-      font-size:18px;
-      text-align:center;
-      color:#111;
-      margin: 4px 0 12px;
-    }
-
-    .options{
-      display:grid;
-      gap:10px;
-      grid-template-columns: 1fr;
-      margin: 0 auto;
-      width: min(560px, 100%);
-    }
-
+    .question{ font-weight:980; font-size:18px; text-align:center; margin:4px 0 12px; color:#111; }
+    .options{ display:grid; gap:10px; width:min(620px,100%); margin:0 auto; }
     .opt{
-      border:none;
-      cursor:pointer;
-      padding: 14px 14px;
-      border-radius: 16px;
-      font-weight: 950;
-      font-size: 15px;
-      background: rgba(255,255,255,.85);
+      border:none; cursor:pointer;
+      padding: 14px;
+      border-radius:16px;
+      font-weight:980; font-size:15px;
+      background: rgba(255,255,255,.88);
       border:1px solid rgba(0,0,0,.08);
       box-shadow: 0 12px 26px rgba(0,0,0,.10);
       transition: transform .12s ease, filter .2s ease;
       text-align:center;
     }
+    .opt:hover{ filter: brightness(1.03); }
     .opt:active{ transform: scale(.98); }
-    .opt:hover{ filter: brightness(1.02); }
-
-    .opt.good{ outline: 2px solid rgba(34,197,94,.35); }
-    .opt.warn{ outline: 2px solid rgba(245,158,11,.30); }
-    .opt.bad{ outline: 2px solid rgba(239,68,68,.30); }
-
-    .feedback{
-      margin-top: 12px;
-      border-radius: 16px;
-      padding: 12px 12px;
-      background: rgba(255,255,255,.75);
-      border: 1px solid rgba(0,0,0,.06);
-      box-shadow: 0 10px 25px rgba(0,0,0,.07);
-      min-height: 54px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      font-weight:850;
-      color:#333;
+    .opt.selected{
+      outline: 3px solid rgba(216,27,96,.25);
+      box-shadow: 0 0 0 6px rgba(216,27,96,.08), 0 14px 28px rgba(0,0,0,.12);
+      transform: translateY(-1px);
     }
 
+    .feedback{
+      margin-top:12px;
+      border-radius:16px;
+      padding:12px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 25px rgba(0,0,0,.07);
+      min-height:54px;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center;
+      font-weight:900;
+      color:#333;
+    }
     .feedback.good{ border-color: rgba(34,197,94,.35); color:#14532d; }
     .feedback.warn{ border-color: rgba(245,158,11,.35); color:#7c2d12; }
     .feedback.bad{ border-color: rgba(239,68,68,.35); color:#7f1d1d; }
 
-    .actions{
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top: 12px;
-    }
-
+    .actions{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:12px; }
     .action{
-      border:none;
-      cursor:pointer;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 950;
-      background: rgba(255,255,255,.82);
+      border:none; cursor:pointer;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:980;
+      background: rgba(255,255,255,.86);
       border: 1px solid rgba(0,0,0,.08);
       box-shadow: 0 10px 25px rgba(0,0,0,.10);
     }
     .action.primary{
-      background: linear-gradient(135deg, #ff4d6d, #ff8fab);
+      background: linear-gradient(135deg, #ff2d95, #ff8fab, #ffd166);
       color:white;
       border:none;
       box-shadow: var(--glow);
     }
-    .action:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-    }
+    .action:disabled{ opacity:.55; cursor:not-allowed; }
 
-    /* Final love scene arena */
+    /* Proposal card */
+    .proposal{
+      width:min(680px, 100%);
+      margin: 0 auto;
+      border-radius: 22px;
+      padding: 18px 16px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 14px 40px rgba(0,0,0,.12);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .proposal:before{
+      content:"";
+      position:absolute; inset:-60px;
+      background: radial-gradient(circle at 20% 30%, rgba(255,45,149,.18), transparent 55%),
+                  radial-gradient(circle at 80% 70%, rgba(0,230,184,.16), transparent 55%),
+                  radial-gradient(circle at 60% 10%, rgba(255,209,102,.14), transparent 55%);
+      transform: rotate(10deg);
+    }
+    .proposal > *{ position:relative; }
+    .ring{ font-size:44px; filter: drop-shadow(0 10px 18px rgba(0,0,0,.18)); }
+    .proposal h2{ margin:10px 0 6px; color:#c2185b; font-weight:1000; }
+    .proposal .line{ font-weight:900; color:#333; }
+    .proposal .place{ margin-top:10px; font-weight:1000; color:#6a1b9a; }
+    .tiny{ margin-top:10px; font-size:12px; opacity:.85; font-weight:800; }
+
+    /* Love scene */
     .arena{
       position:relative;
-      width: min(620px, 100%);
-      height: 210px;
+      width: min(680px, 100%);
+      height: 240px;
       margin: 10px auto 0;
       border-radius: 18px;
-      background: linear-gradient(135deg, rgba(255,192,203,.35), rgba(173,216,230,.25));
+      background: linear-gradient(135deg, rgba(255,192,203,.38), rgba(173,216,230,.28));
       border: 1px dashed rgba(216,27,96,.25);
       overflow:hidden;
     }
-
     .btn{
-      border:none;
-      cursor:pointer;
-      padding: 14px 26px;
-      font-weight: 980;
-      border-radius: 999px;
-      font-size: 16px;
+      border:none; cursor:pointer;
+      padding:14px 26px;
+      font-weight:990;
+      border-radius:999px;
+      font-size:16px;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
       box-shadow: 0 10px 22px rgba(0,0,0,.14);
       position:absolute;
-      top: 24px;
-      white-space: nowrap;
+      top:26px;
+      white-space:nowrap;
       transition: transform .12s ease, filter .2s ease;
     }
     .btn:active{ transform: scale(.98); }
-    #yesBtn{
-      background: #22c55e;
-      color:white;
-      left:50%;
-      transform: translateX(-125%);
-    }
-    #noBtn{
-      background: #ff3b5c;
-      color:white;
-      left:50%;
-      transform: translateX(20%);
-      touch-action:none;
-    }
-
-    .hint{
-      margin-top: 10px;
-      text-align:center;
-      font-size: 12px;
-      opacity:.75;
-    }
+    #yesBtn{ background:#22c55e; color:white; left:50%; transform: translateX(-125%); }
+    #noBtn{ background:#ff3b5c; color:white; left:50%; transform: translateX(20%); touch-action:none; }
 
     .finalText{
       margin-top: 10px;
       text-align:center;
-      font-weight: 950;
+      font-weight: 980;
       font-size: 18px;
       color:#6a1b9a;
       min-height: 28px;
     }
+    .hint{ margin-top:10px; text-align:center; font-size:12px; opacity:.78; font-weight:800; }
+
+    /* End Popup */
+    .modalOverlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.42);
+      display:none; align-items:center; justify-content:center;
+      padding:16px;
+      z-index:9999;
+      backdrop-filter: blur(8px);
+    }
+    .modalOverlay.show{ display:flex; }
+    .modal{
+      width:min(700px, 92vw);
+      background: rgba(255,255,255,.86);
+      border:1px solid rgba(255,255,255,.45);
+      border-radius:22px;
+      padding:18px 16px;
+      box-shadow: 0 24px 90px rgba(0,0,0,.28);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .modal::before{
+      content:"";
+      position:absolute; inset:-60px;
+      background: radial-gradient(circle at 25% 35%, rgba(255,45,149,.20), transparent 55%),
+                  radial-gradient(circle at 80% 65%, rgba(0,230,184,.18), transparent 55%),
+                  radial-gradient(circle at 60% 15%, rgba(255,209,102,.16), transparent 55%);
+      transform: rotate(10deg);
+    }
+    .modal > *{ position:relative; }
+    .modal h2{ margin:6px 0 8px; color:#c2185b; font-size:24px; font-weight:1000; }
+    .modal p{ margin:8px 0 0; font-weight:900; color:#333; line-height:1.55; white-space: pre-wrap; }
+    .modalActions{ margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .small{ margin-top:10px; font-size:12px; opacity:.85; font-weight:800; }
   </style>
 </head>
 
@@ -328,14 +300,28 @@
   <div class="floaters" id="floaters"></div>
   <canvas id="fx"></canvas>
 
+  <!-- End Romantic Popup -->
+  <div class="modalOverlay" id="modalOverlay">
+    <div class="modal">
+      <div style="font-size:38px;">💖🌸🎆</div>
+      <h2 id="modalTitle">Kutty maaaa 😭💖</h2>
+      <p id="modalBody">Loading…</p>
+      <div class="modalActions">
+        <button class="action primary" id="copyBtn">Copy message ✅</button>
+        <button class="action" id="closeModalBtn">Close 💞</button>
+      </div>
+      <div class="small">Tip: Screenshot this popup & send me 😌</div>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="card">
       <div class="badge">🌸 For Kutty ma 💖</div>
 
       <h1 id="mainTitle">Kutty ma Quiz 😏💖</h1>
-      <p class="subtitle" id="mainSub">Answer 3 questions… then comes the final question 😈</p>
+      <p class="subtitle" id="mainSub">Answer 3 questions… then proposal… then final love question 😈💘</p>
 
-      <!-- QUIZ SCENE -->
+      <!-- Scene 1: Quiz -->
       <div class="scene active" id="quizScene">
         <div class="toprow">
           <div class="pill" id="progressPill">Question 1 / 3</div>
@@ -343,10 +329,10 @@
         </div>
 
         <div class="qbox">
-          <div class="question" id="qText">Loading...</div>
+          <div class="question" id="qText">Loading…</div>
           <div class="options" id="options"></div>
 
-          <div class="feedback" id="feedback">Pick one option 😏</div>
+          <div class="feedback" id="feedback">Pick one option 😏 (you can change later)</div>
 
           <div class="actions">
             <button class="action" id="backBtn" disabled>Back</button>
@@ -354,13 +340,31 @@
           </div>
         </div>
 
-        <div class="hint">Cute + troll mix 😌💘</div>
+        <div class="hint">You can reselect options any time — score updates live ✅</div>
       </div>
 
-      <!-- LOVE SCENE -->
+      <!-- Scene 2: Proposal -->
+      <div class="scene" id="proposalScene">
+        <div class="proposal">
+          <div class="ring">💍</div>
+          <h2>Kutty ma… will you be my Valentine? 🌹</h2>
+          <div class="line">More dates, more laughs, more “us” 💞</div>
+          <div class="place">Proposal: Snacks at Aladipattiyan 😋🌸</div>
+          <div class="tiny">Now one final question… don’t be shy 😏</div>
+
+          <div class="actions" style="margin-top:14px;">
+            <button class="action" id="openMaps2">Open Maps 🗺️</button>
+            <button class="action primary" id="goFinal">Go to final question 💖</button>
+          </div>
+        </div>
+
+        <div class="hint">This is your official Valentine proposal 😭💘</div>
+      </div>
+
+      <!-- Scene 3: Love Finale -->
       <div class="scene" id="loveScene">
         <h1 style="margin-top:0;">Kutty ma, do you love me? 💖</h1>
-        <p class="subtitle">Choose wisely 😏 (No button is… alive)</p>
+        <p class="subtitle">Choose wisely 😏 (No button is alive)</p>
 
         <div class="arena" id="arena">
           <button class="btn" id="yesBtn">Yes 😍</button>
@@ -374,366 +378,451 @@
           <button class="action primary" id="closeBtn">Close 💞</button>
         </div>
 
-        <div class="hint">Proposal: Snacks at Aladipattiyan 😋🌸</div>
+        <div class="hint">After you click… you’ll get the romantic popup 😌💘</div>
       </div>
-
     </div>
   </div>
 
   <script>
-    /***********************
-     * Cute floaters + FX
-     ***********************/
-    const floaters = document.getElementById("floaters");
-    const EMOJIS = ["💖","💘","💝","❤️","🌹","🌸","🌷","✨","🫶","🥰","🍫","🎀"];
+    (function(){
+      // ========= DOM =========
+      const $ = (id)=>document.getElementById(id);
 
-    const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+      // Scenes
+      const quizScene = $("quizScene");
+      const proposalScene = $("proposalScene");
+      const loveScene = $("loveScene");
 
-    function spawnFloaters(count){
-      for(let i=0;i<count;i++){
-        const el = document.createElement("div");
-        el.className = "floater";
-        el.textContent = EMOJIS[rand(0, EMOJIS.length-1)];
+      const mainTitle = $("mainTitle");
+      const mainSub = $("mainSub");
 
-        const left = rand(0, 100);
-        const dur = rand(4500, 9000);
-        const delay = rand(0, 600);
+      // Quiz UI
+      const qText = $("qText");
+      const optionsEl = $("options");
+      const feedbackEl = $("feedback");
+      const progressPill = $("progressPill");
+      const scorePill = $("scorePill");
+      const backBtn = $("backBtn");
+      const nextBtn = $("nextBtn");
 
-        el.style.left = left + "vw";
-        el.style.animationDuration = dur + "ms";
-        el.style.animationDelay = delay + "ms";
-        el.style.opacity = (Math.random() * 0.35 + 0.55).toFixed(2);
+      // Love UI
+      const arena = $("arena");
+      const yesBtn = $("yesBtn");
+      const noBtn  = $("noBtn");
+      const finalText = $("finalText");
 
-        floaters.appendChild(el);
-        setTimeout(() => el.remove(), dur + delay + 200);
-      }
-    }
+      // Modal
+      const modalOverlay = $("modalOverlay");
+      const modalTitle = $("modalTitle");
+      const modalBody  = $("modalBody");
+      const copyBtn = $("copyBtn");
+      const closeModalBtn = $("closeModalBtn");
+      let lastCopied = "";
 
-    // Canvas confetti/fireworks
-    const fx = document.getElementById("fx");
-    const ctx = fx.getContext("2d");
-    let particles = [];
+      // Floaters
+      const floaters = $("floaters");
+      const EMOJIS = ["💖","💘","💝","❤️","🌹","🌸","🌷","✨","🫶","🥰","🍫","🎀","💐","🪷","🦋","🌺","🎆"];
+      const rand = (min, max)=>Math.floor(Math.random()*(max-min+1))+min;
 
-    function resizeFX(){
-      fx.width = window.innerWidth * devicePixelRatio;
-      fx.height = window.innerHeight * devicePixelRatio;
-      ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-    }
-
-    function confettiBurst(n=180){
-      const colors = ["#ff4d6d","#ff8fab","#ffd166","#06d6a0","#4cc9f0","#a78bfa","#fb7185","#f472b6"];
-      for(let i=0;i<n;i++){
-        particles.push({
-          x: window.innerWidth/2 + rand(-90,90),
-          y: window.innerHeight/2 + rand(-60,60),
-          vx: (Math.random()*8-4),
-          vy: (Math.random()*-10-3),
-          g: 0.22 + Math.random()*0.12,
-          r: 2 + Math.random()*4,
-          a: 1,
-          rot: Math.random()*Math.PI,
-          vr: (Math.random()*0.2-0.1),
-          c: colors[rand(0, colors.length-1)],
-          life: 190 + rand(0,90),
-          type: "confetti"
-        });
-      }
-    }
-
-    function fireworks(bursts=2){
-      const colors = ["#ffffff","#ffe066","#ff5d8f","#4cc9f0","#c77dff","#06d6a0"];
-      for(let b=0;b<bursts;b++){
-        const cx = rand(20, 80) * window.innerWidth/100;
-        const cy = rand(15, 55) * window.innerHeight/100;
-        const count = 90 + rand(0,55);
+      function spawnFloaters(count){
         for(let i=0;i<count;i++){
-          const ang = Math.random()*Math.PI*2;
-          const sp = 1.5 + Math.random()*4.8;
+          const el = document.createElement("div");
+          el.className="floater";
+          el.textContent = EMOJIS[rand(0, EMOJIS.length-1)];
+          el.style.left = rand(0,100) + "vw";
+          const dur = rand(4200, 9800);
+          const delay = rand(0, 520);
+          el.style.animationDuration = dur + "ms";
+          el.style.animationDelay = delay + "ms";
+          el.style.opacity = (Math.random()*0.35 + 0.55).toFixed(2);
+          floaters.appendChild(el);
+          setTimeout(()=>el.remove(), dur+delay+250);
+        }
+      }
+
+      // ========= Canvas FX =========
+      const fx = $("fx");
+      const ctx = fx.getContext("2d");
+      let particles = [];
+
+      function resizeFX(){
+        fx.width = window.innerWidth * devicePixelRatio;
+        fx.height = window.innerHeight * devicePixelRatio;
+        ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+      }
+
+      function confettiBurst(n=320){
+        const colors = ["#ff2d95","#ff8fab","#ffd166","#06d6a0","#4cc9f0","#a78bfa","#fb7185","#f472b6","#22c55e","#f97316","#ffffff"];
+        for(let i=0;i<n;i++){
           particles.push({
-            x: cx, y: cy,
-            vx: Math.cos(ang)*sp,
-            vy: Math.sin(ang)*sp,
-            g: 0.06 + Math.random()*0.05,
-            r: 1.2 + Math.random()*2.2,
+            x: window.innerWidth/2 + rand(-140,140),
+            y: window.innerHeight/2 + rand(-90,90),
+            vx: (Math.random()*11-5.5),
+            vy: (Math.random()*-15-4),
+            g: 0.20 + Math.random()*0.16,
+            r: 2 + Math.random()*6,
             a: 1,
-            rot: 0, vr: 0,
+            rot: Math.random()*Math.PI,
+            vr: (Math.random()*0.40-0.20),
             c: colors[rand(0, colors.length-1)],
-            life: 125 + rand(0,75),
-            type: "spark"
+            life: 240 + rand(0,140),
+            type: "confetti"
           });
         }
       }
-    }
 
-    function tickFX(){
-      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-      particles = particles.filter(p => p.life-- > 0 && p.a > 0.02);
+      function fireworks(bursts=5){
+        const colors = ["#ffffff","#ffe066","#ff5d8f","#4cc9f0","#c77dff","#06d6a0","#ffd166","#ff2d95","#22c55e"];
+        for(let b=0;b<bursts;b++){
+          const cx = rand(12, 88) * window.innerWidth/100;
+          const cy = rand(10, 55) * window.innerHeight/100;
+          const count = 170 + rand(0,110);
+          for(let i=0;i<count;i++){
+            const ang = Math.random()*Math.PI*2;
+            const sp = 2.2 + Math.random()*6.8;
+            particles.push({
+              x: cx, y: cy,
+              vx: Math.cos(ang)*sp,
+              vy: Math.sin(ang)*sp,
+              g: 0.04 + Math.random()*0.07,
+              r: 1.2 + Math.random()*2.8,
+              a: 1,
+              rot: 0, vr: 0,
+              c: colors[rand(0, colors.length-1)],
+              life: 165 + rand(0,115),
+              type: "spark"
+            });
+          }
+        }
+      }
 
-      for(const p of particles){
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += p.g;
-        p.rot += p.vr;
-        p.a *= 0.992;
+      function flowerPops(pops=4){
+        const flowerColors = ["#ff2d95","#ff8fab","#ffd166","#22c55e","#4cc9f0","#c77dff","#ffffff"];
+        for(let p=0;p<pops;p++){
+          const cx = rand(20, 80) * window.innerWidth/100;
+          const cy = rand(18, 65) * window.innerHeight/100;
+          const count = 110 + rand(0,60);
+          for(let i=0;i<count;i++){
+            const ang = Math.random()*Math.PI*2;
+            const sp = 1.8 + Math.random()*5.2;
+            particles.push({
+              x: cx, y: cy,
+              vx: Math.cos(ang)*sp,
+              vy: Math.sin(ang)*sp,
+              g: 0.05 + Math.random()*0.06,
+              r: 1.8 + Math.random()*3.2,
+              a: 1,
+              rot: 0, vr: 0,
+              c: flowerColors[rand(0, flowerColors.length-1)],
+              life: 150 + rand(0,90),
+              type: "spark"
+            });
+          }
+        }
+      }
 
-        ctx.save();
-        ctx.globalAlpha = p.a;
-        ctx.fillStyle = p.c;
+      function tickFX(){
+        ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+        particles = particles.filter(p => p.life-- > 0 && p.a > 0.02);
 
-        if(p.type === "confetti"){
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot);
-          ctx.fillRect(-p.r, -p.r/2, p.r*2.3, p.r);
+        for(const p of particles){
+          p.x += p.vx; p.y += p.vy; p.vy += p.g; p.rot += p.vr; p.a *= 0.991;
+
+          ctx.save();
+          ctx.globalAlpha = p.a;
+          ctx.fillStyle = p.c;
+
+          if(p.type === "confetti"){
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.fillRect(-p.r, -p.r/2, p.r*2.8, p.r);
+          }else{
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+        requestAnimationFrame(tickFX);
+      }
+
+      // ========= Modal =========
+      function showEndPopup(title, body){
+        modalTitle.textContent = title;
+        modalBody.textContent = body;
+        lastCopied = body;
+        modalOverlay.classList.add("show");
+
+        // massive celebration
+        spawnFloaters(90);
+        confettiBurst(900);
+        fireworks(10);
+        flowerPops(7);
+      }
+      copyBtn.addEventListener("click", async () => {
+        try{
+          await navigator.clipboard.writeText(lastCopied);
+          copyBtn.textContent = "Copied ✅";
+          setTimeout(()=>copyBtn.textContent="Copy message ✅", 1400);
+        }catch(e){
+          copyBtn.textContent = "Copy blocked 😅";
+          setTimeout(()=>copyBtn.textContent="Copy message ✅", 1600);
+        }
+      });
+      closeModalBtn.addEventListener("click", ()=> modalOverlay.classList.remove("show"));
+      modalOverlay.addEventListener("click", (e)=> { if(e.target===modalOverlay) modalOverlay.classList.remove("show"); });
+
+      // ========= Scene switch =========
+      function showScene(scene){
+        [quizScene, proposalScene, loveScene].forEach(s => s.classList.remove("active"));
+        scene.classList.add("active");
+      }
+
+      // ========= Quiz Data (reselect enabled) =========
+      const QUESTIONS = [
+        {
+          q: "When I pinged you first time? 😌",
+          options: [
+            { label: "Feb 15 — 5:30 o'clock", grade:"good", correct:true,
+              msg:"Ayyy Kutty ma 🥺💖 perfect memory! That moment is special for me." },
+            { label: "Feb 15 — 5:15 o'clock", grade:"bad", correct:false,
+              msg:"Ayo 😤 wrong! You forgot my first ping ah? Hmm suspicious 😏" },
+            { label: "Feb 15 — 6:00 o'clock", grade:"bad", correct:false,
+              msg:"Eiii 😤 not this time! Think properly Kutty ma 😌" }
+          ]
+        },
+        {
+          q: "What’s my fav food? 😋",
+          options: [
+            { label: "Dosa 🥞💖", grade:"good", correct:true,
+              msg:"Awww YESSS 😭💖 Dosa is love! You know me too well, Kutty ma 🫶" },
+            { label: "Briyani 🍗🙂", grade:"warn", correct:false,
+              msg:"Briyani is nice 😌 but not my #1… still cute attempt 😂" },
+            { label: "Rasam 🍲😅", grade:"warn", correct:false,
+              msg:"Rasam ok ok 😅 but not my top… still love you 😏" }
+          ]
+        },
+        {
+          q: "Where we went for your bday? 🎂",
+          options: [
+            { label: "Temple + Beach 🌸🏖️", grade:"good", correct:true,
+              msg:"Kutty maaaa 😭💖 correct! That day was peaceful and perfect with you." },
+            { label: "Beach + Temple 🏖️🌸", grade:"bad", correct:false,
+              msg:"Close 😤 but wrong order! Think properly 😂" },
+            { label: "Temple + Sunset Beach 🌸🌅", grade:"bad", correct:false,
+              msg:"Nice idea 😤 but not our actual plan! You’re testing me ah? 😏" }
+          ]
+        }
+      ];
+
+      let qIndex = 0;
+      const answers = new Array(QUESTIONS.length).fill(null);
+
+      function computeScore(){
+        return answers.reduce((s, optIndex, qi) => {
+          if(optIndex === null) return s;
+          return s + (QUESTIONS[qi].options[optIndex].correct ? 1 : 0);
+        }, 0);
+      }
+
+      function setFeedback(grade, text){
+        feedbackEl.className = "feedback " + grade;
+        feedbackEl.textContent = text;
+      }
+
+      function renderQuestion(){
+        const Q = QUESTIONS[qIndex];
+
+        progressPill.textContent = `Question ${qIndex+1} / ${QUESTIONS.length}`;
+        scorePill.textContent = `Score: ${computeScore()}`;
+        qText.textContent = Q.q;
+
+        optionsEl.innerHTML = "";
+        backBtn.disabled = (qIndex === 0);
+        nextBtn.disabled = (answers[qIndex] === null);
+
+        if(answers[qIndex] === null){
+          feedbackEl.className = "feedback";
+          feedbackEl.textContent = "Pick one option 😏 (you can change later)";
         } else {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-      requestAnimationFrame(tickFX);
-    }
-
-    /***********************
-     * Quiz Data (your logic)
-     ***********************/
-    const QUESTIONS = [
-      {
-        q: "When I pinged you first time? 😌",
-        options: [
-          {
-            label: "Feb 15 — 5:30 o'clock ✅",
-            grade: "good",
-            correct: true,
-            msg: "Ayyy Kutty ma 🥺💖 perfect memory! That moment is special for me."
-          },
-          {
-            label: "Feb 15 — 5:15 o'clock",
-            grade: "bad",
-            correct: false,
-            msg: "Ayo 😤 wrong! You forgot my first ping ah? Hmm suspicious 😏"
-          },
-          {
-            label: "Feb 15 — 6:00 o'clock",
-            grade: "bad",
-            correct: false,
-            msg: "Eiii 😤 not this time! Think properly Kutty ma 😌"
-          }
-        ]
-      },
-      {
-        q: "What’s my fav food? 😋",
-        options: [
-          {
-            label: "Dosa 🥞💖",
-            grade: "good",
-            correct: true,
-            msg: "Awww YESSS 😭💖 Dosa is love! You know me too well, Kutty ma 🫶"
-          },
-          {
-            label: "Briyani 🍗🙂",
-            grade: "warn",
-            correct: false,
-            msg: "Hmm… briyani is nice 😌 but not my #1. You’re average today 😂"
-          },
-          {
-            label: "Rasam 🍲😅",
-            grade: "warn",
-            correct: false,
-            msg: "Rasam ah? ok ok 😅 not bad… but still wrong, Kutty ma 😏"
-          }
-        ]
-      },
-      {
-        q: "Where we went for your bday? 🎂",
-        options: [
-          {
-            label: "Temple + Beach 🌸🏖️ ✅",
-            grade: "good",
-            correct: true,
-            msg: "Kutty maaaa 😭💖 correct! I love how simple and peaceful that day was with you."
-          },
-          {
-            label: "Beach + Ice cream 🏖️🍦",
-            grade: "bad",
-            correct: false,
-            msg: "Adei 😤 wrong! Ice cream is ok, but you forgot the main plan ah?"
-          },
-          {
-            label: "Temple + Shopping 🌸🛍️",
-            grade: "bad",
-            correct: false,
-            msg: "No no 😤 shopping illa! Think again Kutty ma 😏"
-          }
-        ]
-      }
-    ];
-
-    /***********************
-     * Quiz Engine
-     ***********************/
-    const quizScene = document.getElementById("quizScene");
-    const loveScene = document.getElementById("loveScene");
-
-    const qText = document.getElementById("qText");
-    const optionsEl = document.getElementById("options");
-    const feedbackEl = document.getElementById("feedback");
-
-    const progressPill = document.getElementById("progressPill");
-    const scorePill = document.getElementById("scorePill");
-
-    const backBtn = document.getElementById("backBtn");
-    const nextBtn = document.getElementById("nextBtn");
-
-    const mainTitle = document.getElementById("mainTitle");
-    const mainSub = document.getElementById("mainSub");
-
-    let idx = 0;
-    let score = 0;
-    const answers = new Array(QUESTIONS.length).fill(null); // store selected option index
-
-    function setFeedback(grade, text){
-      feedbackEl.className = "feedback " + grade;
-      feedbackEl.textContent = text;
-    }
-
-    function renderQuestion(){
-      const Q = QUESTIONS[idx];
-      progressPill.textContent = `Question ${idx+1} / ${QUESTIONS.length}`;
-      scorePill.textContent = `Score: ${score}`;
-
-      qText.textContent = Q.q;
-      optionsEl.innerHTML = "";
-      feedbackEl.className = "feedback";
-      feedbackEl.textContent = "Pick one option 😏";
-
-      nextBtn.disabled = true;
-      backBtn.disabled = (idx === 0);
-
-      Q.options.forEach((opt, i) => {
-        const btn = document.createElement("button");
-        btn.className = `opt ${opt.grade}`;
-        btn.textContent = opt.label;
-
-        // If already answered, show selected state + lock
-        if (answers[idx] !== null) {
-          btn.disabled = true;
-          if (answers[idx] === i) {
-            btn.style.transform = "scale(1.01)";
-            btn.style.boxShadow = "0 0 0 3px rgba(216,27,96,.18), 0 12px 26px rgba(0,0,0,.10)";
-          }
-          nextBtn.disabled = false;
+          const picked = Q.options[answers[qIndex]];
+          setFeedback(picked.grade, picked.msg);
         }
 
-        btn.addEventListener("click", () => pickAnswer(i));
-        optionsEl.appendChild(btn);
+        Q.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.className = "opt";
+          btn.textContent = opt.label;
+          if(answers[qIndex] === i) btn.classList.add("selected");
+
+          btn.addEventListener("click", () => {
+            answers[qIndex] = i;
+            [...optionsEl.querySelectorAll(".opt")].forEach(b => b.classList.remove("selected"));
+            btn.classList.add("selected");
+
+            setFeedback(opt.grade, opt.msg);
+            scorePill.textContent = `Score: ${computeScore()}`;
+            nextBtn.disabled = false;
+
+            // effects by grade
+            if(opt.grade === "good"){
+              spawnFloaters(20); confettiBurst(360); fireworks(5); flowerPops(3);
+            } else if(opt.grade === "warn"){
+              spawnFloaters(12); confettiBurst(220); fireworks(2);
+            } else {
+              spawnFloaters(8); confettiBurst(140);
+            }
+          });
+
+          optionsEl.appendChild(btn);
+        });
+      }
+
+      backBtn.addEventListener("click", () => {
+        if(qIndex > 0){ qIndex--; renderQuestion(); }
       });
 
-      // show feedback if answered earlier
-      if (answers[idx] !== null) {
-        const picked = QUESTIONS[idx].options[answers[idx]];
-        setFeedback(picked.grade, picked.msg);
+      nextBtn.addEventListener("click", () => {
+        if(qIndex < QUESTIONS.length - 1){
+          qIndex++; renderQuestion();
+        } else {
+          // go to proposal scene
+          mainTitle.textContent = "Proposal Time 😭💖";
+          mainSub.textContent = "Now read this carefully…";
+          showScene(proposalScene);
+          spawnFloaters(35); confettiBurst(500); fireworks(6); flowerPops(4);
+        }
+      });
+
+      // ========= Proposal buttons =========
+      function openMaps(){
+        const q = encodeURIComponent("Aladipattiyan");
+        window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, "_blank");
       }
-    }
+      $("openMaps2").addEventListener("click", openMaps);
+      $("goFinal").addEventListener("click", () => {
+        mainTitle.textContent = "Valentine Finale 💘";
+        mainSub.textContent = "Now answer honestly… my Kutty ma 😌🌹";
+        showScene(loveScene);
+        spawnFloaters(30); confettiBurst(420); fireworks(5); flowerPops(3);
+        setTimeout(moveNoButton, 350);
+      });
 
-    function pickAnswer(optionIndex){
-      if (answers[idx] !== null) return; // already answered
+      // ========= Love logic =========
+      const noTexts = [
+        "No 🙃","Nope 😈","Are you sure? 😏","Think again 🤭","Not allowed 🚫😄",
+        "Try again 😂","Wrong button 😭","NO disabled 🔒","No is on leave 🏃‍♂️",
+        "404 No not found 😅","Nice try 😌","Stop chasing me 😭","Pick YES 😏",
+        "Maintenance 🛠️","No is shy 🙈","No ran away 🏃‍♀️","No? really? 👀",
+        "Illegal 😈","Not today 😌","Finger slipped 😅","Rechecking… 💖",
+        "Heart says YES 💘","Allergic to NO 🤧","NO deleted ✅",
+        "Destiny 💞","Come onnn 😏","Can’t click 😆","Only YES works 💚",
+        "Okay… you love me 😌💖","Final: YES only 😭💘","Nice try, thangoo 😏"
+      ];
 
-      answers[idx] = optionIndex;
-      const picked = QUESTIONS[idx].options[optionIndex];
+      const rosesAfterDecision =
+`Roses are red 🌹
+Violets are blue 💜
+Kutty ma… my heart is calm
+Only when it’s with you 🫶`;
 
-      // scoring: good = +1, warn = +0, bad = +0
-      if (picked.correct) score += 1;
+      let noAttempts = 0;
+      let locked = false;
 
-      // lock all option buttons
-      [...optionsEl.querySelectorAll("button")].forEach(b => b.disabled = true);
+      function moveNoButton(){
+        const r = arena.getBoundingClientRect();
+        const w = noBtn.offsetWidth;
+        const h = noBtn.offsetHeight;
+        const pad = 10;
+        const maxX = Math.max(pad, Math.floor(r.width  - w - pad));
+        const maxY = Math.max(pad, Math.floor(r.height - h - pad));
+        noBtn.style.left = rand(pad, maxX) + "px";
+        noBtn.style.top  = rand(pad, maxY) + "px";
+        noBtn.style.transform = "none";
+      }
 
-      setFeedback(picked.grade, picked.msg);
-      nextBtn.disabled = false;
+      function finalWin(fromNo){
+        if(locked) return;
+        locked = true;
 
-      // effects based on result
-      spawnFloaters(picked.grade === "good" ? 10 : 4);
-      if (picked.grade === "good") { confettiBurst(140); fireworks(1); }
-    }
+        finalText.textContent = fromNo ? "I know you love me 😌💖" : "Yayyy 😭💖 I love you too, Kutty ma!";
 
-    backBtn.addEventListener("click", () => {
-      if (idx > 0) {
-        idx--;
+        // mega
+        spawnFloaters(120); confettiBurst(1200); fireworks(12); flowerPops(9);
+
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+        yesBtn.style.opacity = "0.75";
+        noBtn.style.opacity = "0.55";
+        yesBtn.style.cursor = "not-allowed";
+        noBtn.style.cursor = "not-allowed";
+
+        const score = computeScore();
+        const body =
+`${fromNo ? "Even if you tried NO… 😏" : "You clicked YES 😭✨"}
+
+${rosesAfterDecision}
+
+Quiz Score: ${score}/3
+
+Proposal: Snacks at Aladipattiyan 😋🌸
+Now tell me… when are we going? 🫶
+
+I luuuvvv uu thangoo 😭💖`;
+
+        setTimeout(()=>showEndPopup("Kutty maaaa 😭💖", body), 600);
+      }
+
+      function onNoAttempt(){
+        if(locked) return;
+        noAttempts++;
+        noBtn.textContent = noTexts[(noAttempts-1) % noTexts.length];
+
+        const grow = Math.min(1.35, 1 + noAttempts * 0.03);
+        yesBtn.style.transform = `translateX(-125%) scale(${grow})`;
+
+        moveNoButton();
+        spawnFloaters(6);
+        confettiBurst(120);
+
+        if(noAttempts >= 10) setTimeout(()=>finalWin(true), 250);
+      }
+
+      ["mouseenter","mouseover","pointerenter"].forEach(evt => noBtn.addEventListener(evt, onNoAttempt));
+      noBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); onNoAttempt(); }, { passive:false });
+      noBtn.addEventListener("click", (e)=>{ e.preventDefault(); finalWin(true); });
+      yesBtn.addEventListener("click", ()=> finalWin(false));
+
+      // maps + close
+      $("openMaps").addEventListener("click", openMaps);
+      $("closeBtn").addEventListener("click", () => {
+        finalText.textContent = "Okay Kutty ma 😌💖 close this tab… and send me screenshot 😈";
+        spawnFloaters(35); confettiBurst(420); fireworks(4); flowerPops(2);
+        try { window.close(); } catch(e) {}
+      });
+
+      // ========= Start =========
+      let started = false;
+      function start(){
+        if(started) return;
+        started = true;
+
+        resizeFX();
+        requestAnimationFrame(tickFX);
+
+        // constant emoji rain
+        setInterval(() => spawnFloaters(2), 650);
+
         renderQuestion();
+        spawnFloaters(18);
       }
-    });
 
-    nextBtn.addEventListener("click", () => {
-      if (idx < QUESTIONS.length - 1) {
-        idx++;
-        renderQuestion();
-      } else {
-        // move to love scene
-        showLoveScene();
-      }
-    });
+      document.addEventListener("DOMContentLoaded", start, { once:true });
+      if(document.readyState === "interactive" || document.readyState === "complete") start();
 
-    function showLoveScene(){
-      quizScene.classList.remove("active");
-      loveScene.classList.add("active");
-      mainTitle.textContent = "Final Question 😈💖";
-      mainSub.textContent = "You survived the quiz… now answer this 😏";
+      window.addEventListener("resize", resizeFX);
 
-      // Extra effects
-      confettiBurst(220);
-      fireworks(2);
-      spawnFloaters(18);
-
-      // Start No button inside bounds
-      setTimeout(moveNoButton, 350);
-    }
-
-    /***********************
-     * Love Scene Logic (No runs away)
-     ***********************/
-    const arena = document.getElementById("arena");
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const finalText = document.getElementById("finalText");
-
-    const noTexts = [
-      "No 🙃",
-      "Are you sure? 😏",
-      "Think again 🤭",
-      "Nope 😈",
-      "Last chance 🥺",
-      "Error 404: No not found 😂",
-      "Nice try 😌",
-      "Not allowed 🚫😄"
-    ];
-    let noAttempts = 0;
-    let loveLocked = false;
-
-    function moveNoButton(){
-      const r = arena.getBoundingClientRect();
-      const w = noBtn.offsetWidth;
-      const h = noBtn.offsetHeight;
-
-      const pad = 10;
-      const maxX = Math.max(pad, Math.floor(r.width  - w - pad));
-      const maxY = Math.max(pad, Math.floor(r.height - h - pad));
-
-      noBtn.style.left = rand(pad, maxX) + "px";
-      noBtn.style.top  = rand(pad, maxY) + "px";
-      noBtn.style.transform = "none";
-    }
-
-    function lockToYes(fromNo){
-      if (loveLocked) return;
-      loveLocked = true;
-
-      finalText.textContent = fromNo
-        ? "I know you love me 😌💖"
-        : "Yayyy 😭💖 I love you too, Kutty ma!";
-
-      confettiBurst(320);
-      fireworks(3);
-      spawnFloaters(28);
-
-      yesBtn.disabled = true;
-      noBtn.disabled = true;
+    })();
+  </script>
+</body>
+</html>
