@@ -1,111 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Valentine 💖</title>
+
   <style>
- Valentine's Day 🥰";    body {
-      heart.style.display = "block";
-      // disable runaway after yes
-      noBtn.style.opacity = "0.6";
-      noBtn.style.cursor = "not-allowed";
-      noBtn.replaceWith(noBtn.cloneNode(true)); // remove listeners safely
-    });
+    :root{
+      --pink1:#ffdde1;
+      --pink2:#ee9ca7;
+      --yes:#27ae60;
+      --no:#ff4757;
+      --card:rgba(255,255,255,.92);
+    }
 
-    // Start with a tiny shuffle so it feels alive
-    setTimeout(moveNoButton, 350);
-  </script>
-</body>
-</html>
+    *{ box-sizing:border-box; }
 
-      margin: 0;
+    body{
+      margin:0;
+      height:100vh;
+      display:grid;
+      place-items:center;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      height: 100vh;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      overflow: hidden;
+      background: linear-gradient(135deg, var(--pink1), var(--pink2));
+      overflow:hidden;
     }
 
-    .card {
-      width: min(520px, 92vw);
-      background: rgba(255, 255, 255, 0.92);
-      border-radius: 18px;
-      padding: 28px;
-      text-align: center;
-      box-shadow: 0 14px 50px rgba(0, 0, 0, 0.15);
+    .card{
+      width:min(560px, 92vw);
+      background: var(--card);
+      border-radius:18px;
+      padding:28px 22px;
+      text-align:center;
+      box-shadow:0 14px 50px rgba(0,0,0,.15);
+      position:relative;
     }
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(26px, 3.5vw, 38px);
-      color: #d81b60;
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(26px, 4vw, 40px);
+      color:#d81b60;
+      letter-spacing:.2px;
     }
 
-    p {
-      margin: 0 0 18px;
-      color: #333;
-      font-size: 16px;
+    p{
+      margin:0 0 18px;
+      color:#333;
+      font-size:16px;
     }
 
-    .btns {
-      position: relative;
-      height: 140px; /* space for the runaway button */
-      margin-top: 10px;
+    /* Arena = the area where the No button can run */
+    .arena{
+      position:relative;
+      width:100%;
+      height:170px;
+      margin-top:12px;
+      border-radius:14px;
+      background: rgba(255, 215, 230, .35);
+      overflow:hidden;
     }
 
-    button {
-      border: none;
-      cursor: pointer;
-      padding: 14px 24px;
-      font-weight: 700;
-      border-radius: 999px;
-      font-size: 16px;
-      transition: transform 0.12s ease;
-      user-select: none;
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:14px 24px;
+      font-weight:800;
+      border-radius:999px;
+      font-size:16px;
+      user-select:none;
       -webkit-tap-highlight-color: transparent;
+      transition: transform .12s ease, box-shadow .2s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+      position:absolute;
+      top:22px;
     }
+    .btn:active{ transform: scale(.98); }
 
-    button:active {
-      transform: scale(0.98);
-    }
-
-    #yesBtn {
-      background: #2ecc71;
-      color: white;
-      position: absolute;
+    #yesBtn{
+      background: var(--yes);
+      color:white;
       left: 50%;
-      top: 20px;
-      transform: translateX(-110%);
+      transform: translateX(-120%);
     }
 
-    #noBtn {
-      background: #ff5252;
-      color: white;
-      position: absolute;
+    #noBtn{
+      background: var(--no);
+      color:white;
       left: 50%;
-      top: 20px;
-      transform: translateX(10%);
+      transform: translateX(20%);
+      touch-action: none; /* helps touchstart behave */
     }
 
-    .msg {
-      margin-top: 18px;
-      font-size: 18px;
-      font-weight: 700;
-      color: #6a1b9a;
-      min-height: 24px;
+    .msg{
+      margin-top:18px;
+      min-height:26px;
+      font-size:18px;
+      font-weight:800;
+      color:#6a1b9a;
     }
 
-    .heart {
-      font-size: 34px;
-      margin-top: 10px;
+    .hearts{
+      display:none;
+      margin-top:8px;
+      font-size:34px;
       animation: float 1.7s ease-in-out infinite;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+    @keyframes float{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-8px); }
+    }
+
+    .tiny{
+      margin-top:10px;
+      color:#444;
+      font-size:12px;
+      opacity:.8;
     }
   </style>
 </head>
@@ -113,60 +123,78 @@
 <body>
   <div class="card">
     <h1>Do you love me? 💖</h1>
-    <p>Choose wisely 😏</p>
+    <p>Choose one 😏</p>
 
-    <div class="btns" id="arena">
-      <button id="yesBtn">Yes 😍</button>
-      <button id="noBtn">No 🙃</button>
+    <div class="arena" id="arena">
+      <button class="btn" id="yesBtn">Yes 😍</button>
+      <button class="btn" id="noBtn">No 🙃</button>
     </div>
 
     <div class="msg" id="msg"></div>
-    <div class="heart" id="heart" style="display:none;">💘💘💘</div>
+    <div class="hearts" id="hearts">💘💘💘</div>
+    <div class="tiny">Tip: try clicking “No” 😈</div>
   </div>
 
   <script>
-    const arena = document.getElementById("arena");
-    const noBtn = document.getElementById("noBtn");
+    const arena  = document.getElementById("arena");
+    const noBtn  = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
-    const msg = document.getElementById("msg");
-    const heart = document.getElementById("heart");
+    const msg    = document.getElementById("msg");
+    const hearts = document.getElementById("hearts");
 
-    // Utility: random number in range
     const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-    function moveNoButton() {
+    function moveNoButton(){
+      // Sizes
       const arenaRect = arena.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
+      const btnW = noBtn.offsetWidth;
+      const btnH = noBtn.offsetHeight;
 
-      // Calculate maximum positions inside arena
-      const maxX = arenaRect.width - btnRect.width;
-      const maxY = arenaRect.height - btnRect.height;
+      // Boundaries inside arena
+      const pad = 10;
+      const maxX = Math.max(pad, Math.floor(arenaRect.width - btnW - pad));
+      const maxY = Math.max(pad, Math.floor(arenaRect.height - btnH - pad));
 
-      // Keep within bounds + avoid too close to "Yes"
-      const padding = 6;
-      let x = rand(padding, Math.max(padding, maxX - padding));
-      let y = rand(padding, Math.max(padding, maxY - padding));
+      const x = rand(pad, maxX);
+      const y = rand(pad, maxY);
 
-      // Apply new position
       noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      noBtn.style.top  = y + "px";
       noBtn.style.transform = "none";
     }
 
-    // Desktop hover / approach
-    noBtn.addEventListener("pointerenter", moveNoButton);
+    // Run away on mouse approach (desktop)
+    ["mouseenter","mouseover","pointerenter"].forEach(evt =>
+      noBtn.addEventListener(evt, moveNoButton)
+    );
 
-    // Mobile touch attempt
+    // Run away on touch (mobile)
     noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault(); // prevent click registering
+      e.preventDefault();
       moveNoButton();
-    }, { passive: false });
+    }, { passive:false });
 
-    // Extra: If she somehow clicks No (rare), still move it
+    // And if click sneaks through
     noBtn.addEventListener("click", (e) => {
       e.preventDefault();
       moveNoButton();
     });
 
-    // Yes click
+    // YES behavior
     yesBtn.addEventListener("click", () => {
+      msg.textContent = "Yayyy 😭💖 I love you too! Happy Valentine’s Day 🥰";
+      hearts.style.display = "block";
+
+      // Freeze the No button
+      noBtn.style.opacity = "0.55";
+      noBtn.style.cursor = "not-allowed";
+      noBtn.disabled = true;
+    });
+
+    // Initial move after load (so it starts within arena boundaries)
+    window.addEventListener("load", () => {
+      setTimeout(moveNoButton, 350);
+    });
+  </script>
+</body>
+</html>
