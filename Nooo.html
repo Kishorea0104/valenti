@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Valentine 💖</title>
 
   <style>
@@ -13,9 +13,7 @@
       --no:#ff4757;
       --card:rgba(255,255,255,.92);
     }
-
     *{ box-sizing:border-box; }
-
     body{
       margin:0;
       height:100vh;
@@ -25,7 +23,6 @@
       background: linear-gradient(135deg, var(--pink1), var(--pink2));
       overflow:hidden;
     }
-
     .card{
       width:min(560px, 92vw);
       background: var(--card);
@@ -33,27 +30,22 @@
       padding:28px 22px;
       text-align:center;
       box-shadow:0 14px 50px rgba(0,0,0,.15);
-      position:relative;
     }
-
     h1{
       margin:0 0 10px;
       font-size: clamp(26px, 4vw, 40px);
       color:#d81b60;
-      letter-spacing:.2px;
     }
-
     p{
       margin:0 0 18px;
       color:#333;
       font-size:16px;
     }
 
-    /* Arena = the area where the No button can run */
     .arena{
       position:relative;
       width:100%;
-      height:170px;
+      height:180px;
       margin-top:12px;
       border-radius:14px;
       background: rgba(255, 215, 230, .35);
@@ -88,34 +80,33 @@
       color:white;
       left: 50%;
       transform: translateX(20%);
-      touch-action: none; /* helps touchstart behave */
+      touch-action: none; /* improves touch event control */
     }
 
     .msg{
       margin-top:18px;
-      min-height:26px;
+      min-height:28px;
       font-size:18px;
       font-weight:800;
       color:#6a1b9a;
     }
+    .submsg{
+      margin-top:6px;
+      min-height:18px;
+      font-size:13px;
+      color:#444;
+      opacity:.85;
+    }
 
     .hearts{
       display:none;
-      margin-top:8px;
+      margin-top:10px;
       font-size:34px;
       animation: float 1.7s ease-in-out infinite;
     }
-
     @keyframes float{
       0%,100%{ transform: translateY(0); }
       50%{ transform: translateY(-8px); }
-    }
-
-    .tiny{
-      margin-top:10px;
-      color:#444;
-      font-size:12px;
-      opacity:.8;
     }
   </style>
 </head>
@@ -131,8 +122,8 @@
     </div>
 
     <div class="msg" id="msg"></div>
+    <div class="submsg" id="submsg"></div>
     <div class="hearts" id="hearts">💘💘💘</div>
-    <div class="tiny">Tip: try clicking “No” 😈</div>
   </div>
 
   <script>
@@ -140,19 +131,41 @@
     const noBtn  = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
     const msg    = document.getElementById("msg");
+    const submsg = document.getElementById("submsg");
     const hearts = document.getElementById("hearts");
+
+    // Option 5: Messages that appear on the No button (cycles each attempt)
+    const noTexts = [
+      "No 🙃",
+      "Are you sure? 😏",
+      "Think again 🤭",
+      "Last chance 🥺",
+      "Nope 😈",
+      "Nice try 😂",
+      "Not allowed 😌"
+    ];
+
+    // Extra teasing lines below
+    const teaseLines = [
+      "Hehe… you can’t pick that 😌",
+      "You’re adorable for trying 😂",
+      "That button is in “escape mode” 🏃‍♂️",
+      "Wrong answer is unavailable 😏",
+      "Okay okay… we both know the truth 😌💖"
+    ];
+
+    let attempts = 0;
+    let locked = false;
 
     const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
     function moveNoButton(){
-      // Sizes
       const arenaRect = arena.getBoundingClientRect();
       const btnW = noBtn.offsetWidth;
       const btnH = noBtn.offsetHeight;
 
-      // Boundaries inside arena
       const pad = 10;
-      const maxX = Math.max(pad, Math.floor(arenaRect.width - btnW - pad));
+      const maxX = Math.max(pad, Math.floor(arenaRect.width  - btnW - pad));
       const maxY = Math.max(pad, Math.floor(arenaRect.height - btnH - pad));
 
       const x = rand(pad, maxX);
@@ -163,35 +176,69 @@
       noBtn.style.transform = "none";
     }
 
-    // Run away on mouse approach (desktop)
-    ["mouseenter","mouseover","pointerenter"].forEach(evt =>
-      noBtn.addEventListener(evt, moveNoButton)
-    );
+    // Option 4: "No" behaves like "Yes"
+    function treatAsYes(fromNo=false){
+      if (locked) return;
+      locked = true;
 
-    // Run away on touch (mobile)
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    }, { passive:false });
+      msg.textContent = fromNo
+        ? "I know you love me 😌💖"
+        : "Yayyy 😭💖 I love you too! Happy Valentine’s Day 🥰";
 
-    // And if click sneaks through
-    noBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
+      submsg.textContent = fromNo
+        ? "No option rejected by system ✅"
+        : "Best answer selected ✅";
 
-    // YES behavior
-    yesBtn.addEventListener("click", () => {
-      msg.textContent = "Yayyy 😭💖 I love you too! Happy Valentine’s Day 🥰";
       hearts.style.display = "block";
 
-      // Freeze the No button
-      noBtn.style.opacity = "0.55";
-      noBtn.style.cursor = "not-allowed";
-      noBtn.disabled = true;
+      // Lock both buttons after result
+      yesBtn.disabled = true;
+      noBtn.disabled  = true;
+      yesBtn.style.opacity = "0.75";
+      noBtn.style.opacity  = "0.55";
+      yesBtn.style.cursor  = "not-allowed";
+      noBtn.style.cursor   = "not-allowed";
+    }
+
+    // Option 5 behavior: each "attempt" changes text + shows teasing line
+    function onNoAttempt(){
+      if (locked) return;
+
+      attempts++;
+      noBtn.textContent = noTexts[(attempts - 1) % noTexts.length];
+      submsg.textContent = teaseLines[Math.min(teaseLines.length - 1, Math.floor((attempts - 1) / 2))];
+
+      // Keep it moving
+      moveNoButton();
+
+      // Guarantee the joke lands on touch devices:
+      // After a few failed attempts, auto-trigger the "No = Yes" message
+      if (attempts >= 6) {
+        setTimeout(() => treatAsYes(true), 250);
+      }
+    }
+
+    // Desktop: run when mouse approaches
+    ["mouseenter","mouseover","pointerenter"].forEach(evt =>
+      noBtn.addEventListener(evt, onNoAttempt)
+    );
+
+    // Mobile: touch attempt
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      onNoAttempt();
+    }, { passive:false });
+
+    // If she manages to click No (rare), it still acts like Yes (Option 4)
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      treatAsYes(true);
     });
 
-    // Initial move after load (so it starts within arena boundaries)
+    // Yes click stays normal
+    yesBtn.addEventListener("click", () => treatAsYes(false));
+
+    // First shuffle after load
     window.addEventListener("load", () => {
       setTimeout(moveNoButton, 350);
     });
